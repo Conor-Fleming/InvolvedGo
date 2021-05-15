@@ -2,47 +2,36 @@ package clock
 
 import "fmt"
 
-type Clock 
-New(hour, minute int) Clock
+type Clock struct {
+	Hours   int
+	Minutes int
+}
 
-func CreateClock(hour int, minute int) string {
-	New()
-	hour = hour % 24
-	tempMin := minute
+func (clock Clock) String() string {
+	return fmt.Sprintf("%.2v:%.2v", clock.Hours, clock.Minutes)
+}
+
+func New(hour int, minute int) Clock {
+	//manipulting values to ensure correct hour and minute values
+	hour = (hour % 24) + ((minute / 60) % 24)
 	minute = minute % 60
 
-	//use tempMin (initial number of minutes to update hour)
-	if (tempMin / 60) > 24 {
-		hour += tempMin/60 - 24
-	} else {
-		hour += tempMin / 60
+	if hour < 0 {
+
 	}
 
-	fmt.Println(hour)
-	fmt.Println(minute)
+	myClock := Clock{
+		Hours:   hour,
+		Minutes: minute,
+	}
+	return myClock
+}
+
+func (clock Clock) Add(minutes int) Clock {
+	return New(clock.Hours, clock.Minutes+minutes)
 
 }
 
-func AddMinutes() {
-
-}
-
-func SubtractMinutes() {
-
-}
-
-func SubtractMinutesStringless() {
-
-}
-
-func CompareClocks() {
-
-}
-
-func AddAndCompare() {
-
-}
-
-func SubtractAndCompare() {
-
+func (clock Clock) Subtract(minutes int) Clock {
+	return New(clock.Hours, clock.Minutes-minutes)
 }
