@@ -24,13 +24,13 @@ func ConcurrentFrequency(input []string) FreqMap {
 			c <- Frequency(v)
 		}()
 	}
-	x, y, z := <-c, <-c, <-c
 
-	for k, v := range y {
-		x[k] += v
+	result := FreqMap{}
+	for i := 0; i < len(input); i++ {
+		x := <-c
+		for k, v := range x {
+			result[k] += v
+		}
 	}
-	for k, v := range z {
-		x[k] += v
-	}
-	return x
+	return result
 }
