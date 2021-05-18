@@ -10,5 +10,16 @@ type Node struct {
 }
 
 func Build(records []Record) (*Node, error) {
+	tree := make([]*Node, 0)
+	root := Node
+	for records != nil {
+		for i, v := range records {
+			if v.ID == 0 {
+				root := Node{0, nil}
+				tree[i] = &root
+
+			}
+		}
+	}
 
 }
