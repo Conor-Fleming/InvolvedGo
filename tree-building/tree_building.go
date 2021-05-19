@@ -1,3 +1,4 @@
+//Tree package lets us build nice trees to dispplay
 package tree
 
 import (
@@ -14,6 +15,7 @@ type Node struct {
 	Children []*Node
 }
 
+//Build function takes a slice of Record objects and creates a tree based on ID and Parent values of each record
 func Build(records []Record) (*Node, error) {
 	fmt.Println(records)
 	if len(records) == 0 {
