@@ -35,10 +35,13 @@ func Build(records []Record) (*Node, error) {
 			return nil, fmt.Errorf("invalid input, cannot create tree:%+v ", v)
 		}
 
+		//create Node and inserting in tree
+		//if the id of the current Record is NOT 0(not root of tree) then we append this node to its parents Children array
 		tree[v.ID] = &Node{ID: v.ID}
 		if v.ID != 0 {
 			tree[v.Parent].Children = append(tree[v.Parent].Children, tree[v.ID])
 		}
 	}
+	//return the root of the created tree
 	return tree[0], nil
 }
