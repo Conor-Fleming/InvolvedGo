@@ -19,17 +19,20 @@ var namesUsed = map[string]bool{}
 
 func (r *Robot) Name() (string, error) {
 	//create letters/numbers for name and check if name is in use in map namesUsed
-	name := createLetters() + createNumbers()
-	//fmt.Println(name)
-	if robotNameCheck(name) {
-		return " ", fmt.Errorf("This robot name is already being used")
+	if r.name == "" {
+		name := createLetters() + createNumbers()
+		if robotNameCheck(name) {
+			return "", fmt.Errorf("This robot name is already being used")
+		}
+		namesUsed[name] = true
+		r.name = name
 	}
-	namesUsed[name] = true
-	return name, nil
+	return r.name, nil
 }
 
-func (r *Robot) Reset() {
-	//r.name = r.Name()
+func (r *Robot) Reset() (string, error) {
+	r.name = ""
+	return r.Name()
 }
 
 func createLetters() string {
