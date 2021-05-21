@@ -19,7 +19,6 @@ var namesUsed = map[string]bool{}
 
 func (r *Robot) Name() (string, error) {
 	//create letters/numbers for name and check if name is in use in map namesUsed
-
 	name := createLetters() + createNumbers()
 	//fmt.Println(name)
 	if robotNameCheck(name) {
@@ -30,8 +29,9 @@ func (r *Robot) Name() (string, error) {
 }
 
 func (r *Robot) Reset() {
-
+	//r.name = r.Name()
 }
+
 func createLetters() string {
 	letters := make([]byte, 2)
 	for i := range letters {
@@ -48,5 +48,8 @@ func createNumbers() string {
 }
 
 func robotNameCheck(name string) bool {
-	return true
+	if _, present := namesUsed[name]; present {
+		return true
+	}
+	return false
 }
