@@ -1,0 +1,5 @@
+package robotname
+
+func Name() {
+
+}
