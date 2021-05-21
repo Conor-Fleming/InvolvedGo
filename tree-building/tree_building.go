@@ -24,7 +24,6 @@ func Build(records []Record) (*Node, error) {
 	tree := make([]*Node, len(records))
 
 	sort.SliceStable(records, func(i, j int) bool { return records[i].ID < records[j].ID })
-	fmt.Println(records)
 	for i, v := range records {
 		//checking for valid input of records
 		if v.ID != i {
