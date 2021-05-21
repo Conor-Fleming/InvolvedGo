@@ -1,11 +1,13 @@
 package robotname
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
 
 const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const numbset = "1234567890"
 
 var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -13,12 +15,17 @@ type Robot struct {
 	name string
 }
 
-//namesUsed := make(map[string]int)
+var namesUsed = map[string]bool{}
 
 func (r *Robot) Name() (string, error) {
 	//create letters/numbers for name and check if name is in use in map namesUsed
 
-	name := createName()
+	name := createLetters() + createNumbers()
+	//fmt.Println(name)
+	if robotNameCheck(name) {
+		return " ", fmt.Errorf("This robot name is already being used")
+	}
+	namesUsed[name] = true
 	return name, nil
 }
 
@@ -32,8 +39,14 @@ func createLetters() string {
 	}
 	return string(letters)
 }
-func createNumbers
+func createNumbers() string {
+	numbers := make([]byte, 3)
+	for i := range numbers {
+		numbers[i] = numbset[seededRand.Intn(len(numbset))]
+	}
+	return string(numbers)
+}
 
-func robotNameCheck() bool {
+func robotNameCheck(name string) bool {
 	return true
 }
