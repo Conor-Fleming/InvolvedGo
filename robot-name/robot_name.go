@@ -1,3 +1,4 @@
+//Robotname package gives us utilities for naming robots
 package robotname
 
 import (
@@ -17,6 +18,8 @@ type Robot struct {
 
 var namesUsed = map[string]bool{}
 
+//Name function checks to see if a Robot has a name
+//
 func (r *Robot) Name() (string, error) {
 	//create letters/numbers for name and check if name is in use in map namesUsed
 	if r.name == "" {
