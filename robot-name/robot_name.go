@@ -1,4 +1,4 @@
-//Robotname package gives us utilities for naming robots
+//Package robotname package gives us utilities for naming robots
 package robotname
 
 import (
@@ -12,6 +12,7 @@ const numbset = "1234567890"
 
 var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
+//Robot type creates a robot object with a property of name
 type Robot struct {
 	name string
 }
@@ -19,7 +20,6 @@ type Robot struct {
 var namesUsed = map[string]bool{}
 
 //Name function checks to see if a Robot has a name
-//
 func (r *Robot) Name() (string, error) {
 	//create letters/numbers for name and check if name is in use in map namesUsed
 	if r.name == "" {
@@ -33,6 +33,7 @@ func (r *Robot) Name() (string, error) {
 	return r.name, nil
 }
 
+//Reset function helps with the clearing of the robots name and assignment of a new name with a call to Name()
 func (r *Robot) Reset() (string, error) {
 	r.name = ""
 	return r.Name()
