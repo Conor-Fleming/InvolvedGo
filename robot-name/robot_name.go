@@ -4,13 +4,12 @@ package robotname
 import (
 	"fmt"
 	"math/rand"
-	"time"
 )
 
-const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+/*const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const numbset = "1234567890"
 
-var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))*/
 
 //Robot type creates a robot object with a property of name
 type Robot struct {
@@ -23,12 +22,10 @@ var namesUsed = map[string]bool{}
 func (r *Robot) Name() (string, error) {
 	//create letters/numbers for name and check if name is in use in map namesUsed
 	if r.name == "" {
-		name := createLetters() + createNumbers()
-		if robotNameCheck(name) {
-			return "", fmt.Errorf("This robot name is already being used")
+		r.name = newName()
+		for namesUsed[r.name] {
+			r.name = newName()
 		}
-		namesUsed[name] = true
-		r.name = name
 	}
 	return r.name, nil
 }
@@ -39,7 +36,14 @@ func (r *Robot) Reset() (string, error) {
 	return r.Name()
 }
 
-func createLetters() string {
+func newName() string {
+	r1 := rand.Intn(26) + 'A'
+	r2 := rand.Intn(26) + 'A'
+	num := rand.Intn(1000)
+	return fmt.Sprintf("%c%c%03d", r1, r2, num)
+}
+
+/*func createLetters() string {
 	letters := make([]byte, 2)
 	for i := range letters {
 		letters[i] = charset[seededRand.Intn(len(charset))]
@@ -59,4 +63,4 @@ func robotNameCheck(name string) bool {
 		return true
 	}
 	return false
-}
+}*/
