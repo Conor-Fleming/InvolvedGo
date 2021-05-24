@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-var seededRand *rand.Rand = rand.New(rand.NewSource(time.Now().UnixNano()))
+var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 //Robot type creates a robot object with a property of name
 type Robot struct {
@@ -22,10 +22,14 @@ func (r *Robot) Name() (string, error) {
 	if r.name != "" {
 		return r.name, nil
 	}
+	if len(namesUsed) == 26*26*10*10*10 {
+		return "", fmt.Errorf("There are no more possible unique combinations of robot names :(")
+	}
 	r.name = newName()
 	for namesUsed[r.name] {
 		r.name = newName()
 	}
+	namesUsed[r.name] = true
 	return r.name, nil
 }
 
