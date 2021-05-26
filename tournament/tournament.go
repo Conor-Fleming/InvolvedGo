@@ -1,7 +1,6 @@
 package tournament
 
 import (
-	"fmt"
 	"io"
 )
 
@@ -25,8 +24,10 @@ func newTeam(name string) *Team {
 }
 
 func Tally(input io.Reader, output io.Writer) error {
-	AA := newTeam("AA")
-	fmt.Println(AA)
+	AA := newTeam("Allegoric Alaskins")
+	BB := newTeam("Blithering Badgers")
+	CC := newTeam("Courageous Californians")
+	DD := newTeam("Devastating Donkeys")
 
 	return nil
 }
