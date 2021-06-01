@@ -28,12 +28,8 @@ func Tally(reader io.Reader, writer io.Writer) error {
 		//fmt.Println(scanner.Text())
 		split := strings.Split(scanner.Text(), ";")
 
-		if team1, ok := results[split[0]]; !ok {
-			team1.name = split[0]
-		}
-		if team2, ok := results[split[1]]; !ok {
-			team2.name = split[1]
-		}
+		team1 := results[split[0]]
+		team2 := results[split[1]]
 		//switch statement handling the tallying of points and games based off results of matches
 		switch split[2] {
 		case "win":
@@ -59,11 +55,12 @@ func Tally(reader io.Reader, writer io.Writer) error {
 		default:
 			return fmt.Errorf("input formatted incorrectly")
 		}
-	}
-	for i := range results {
-		results[i].name = results[i]
+
+		results[split[0]] = team1
+		results[split[1]] = team2
 	}
 
+	fmt.Println(results)
 	writeBoard(results)
 	return nil
 }
