@@ -2,9 +2,9 @@ package tournament
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
 	"io"
+	"sort"
 	"strings"
 )
 
@@ -29,7 +29,9 @@ func Tally(reader io.Reader, writer io.Writer) error {
 		split := strings.Split(scanner.Text(), ";")
 
 		team1 := results[split[0]]
+		team1.name = split[0]
 		team2 := results[split[1]]
+		team2.name = split[1]
 		//switch statement handling the tallying of points and games based off results of matches
 		switch split[2] {
 		case "win":
@@ -60,18 +62,31 @@ func Tally(reader io.Reader, writer io.Writer) error {
 		results[split[1]] = team2
 	}
 
-	fmt.Println(results)
-	writeBoard(results)
+	//fmt.Println(results)
+	//sortTable(results)
+	writeBoard(results, writer)
 	return nil
 }
 
-func writeBoard(results map[string]TeamRecord) {
-	header := fmt.Sprintf("Team\t\t\t\t| MP | W | D | L | P\n")
-	stats := ""
-	for i := range results {
-		stats += fmt.Sprintf("Team\t\t\t\t| %v | %v | %v | %v | %v\n", results[i].played, results[i].wins, results[i].draws, results[i].losses, results[i].points)
+func writeBoard(results map[string]TeamRecord, writer io.Writer) {
+	order := make([]string, 0, len(results))
+	for k, v := range results {
+		v.name = k
+		order = append(order, k)
 	}
-	header += stats
-	writer := bytes.NewBufferString(header)
-	writer.String()
+	sort.Strings(order)
+
+	fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", "Team", "MP", "W", "D", "L", "P")
+	for i := range results {
+		fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", results[i].name, results[i].played, results[i].wins, results[i].draws, results[i].losses, results[i].points)
+	}
 }
+
+/*func sortTable(results map[string]TeamRecord) {
+	order := make([]string, 0, len(results))
+	for k, v := range results {
+		v.name = k
+		order = append(order, k)
+	}
+	sort.Strings(order)
+}*/
