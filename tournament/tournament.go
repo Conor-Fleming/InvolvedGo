@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"sort"
 	"strings"
 )
 
@@ -69,13 +68,6 @@ func Tally(reader io.Reader, writer io.Writer) error {
 }
 
 func writeBoard(results map[string]TeamRecord, writer io.Writer) {
-	order := make([]string, 0, len(results))
-	for k, v := range results {
-		v.name = k
-		order = append(order, k)
-	}
-	sort.Strings(order)
-
 	fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", "Team", "MP", "W", "D", "L", "P")
 	for i := range results {
 		fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", results[i].name, results[i].played, results[i].wins, results[i].draws, results[i].losses, results[i].points)
