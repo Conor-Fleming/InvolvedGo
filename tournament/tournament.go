@@ -59,11 +59,16 @@ func Tally(reader io.Reader, writer io.Writer) error {
 		default:
 			return fmt.Errorf("input formatted incorrectly")
 		}
-
 		results[split[0]] = team1
 		results[split[1]] = team2
 	}
 
+	ordered := sortTable(results)
+	writeBoard(ordered, writer)
+	return nil
+}
+
+func sortTable(results map[string]TeamRecord) []TeamRecord {
 	ordered := make([]TeamRecord, 0, len(results))
 	for _, v := range results {
 		ordered = append(ordered, v)
@@ -74,9 +79,7 @@ func Tally(reader io.Reader, writer io.Writer) error {
 		}
 		return ordered[i].points > ordered[j].points
 	})
-
-	writeBoard(ordered, writer)
-	return nil
+	return ordered
 }
 
 func writeBoard(ordered []TeamRecord, writer io.Writer) {
@@ -85,12 +88,3 @@ func writeBoard(ordered []TeamRecord, writer io.Writer) {
 		fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", ordered[i].name, ordered[i].played, ordered[i].wins, ordered[i].draws, ordered[i].losses, ordered[i].points)
 	}
 }
-
-/*func sortTable(results map[string]TeamRecord) {
-	order := make([]string, 0, len(results))
-	for k, v := range results {
-		v.name = k
-		order = append(order, k)
-	}
-	sort.Strings(order)
-}*/
