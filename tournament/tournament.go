@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"sort"
 	"strings"
 )
 
@@ -52,6 +53,8 @@ func Tally(reader io.Reader, writer io.Writer) error {
 			team2.played++
 			team1.points++
 			team2.points++
+			team1.draws++
+			team2.draws++
 			break
 		default:
 			return fmt.Errorf("input formatted incorrectly")
@@ -61,16 +64,25 @@ func Tally(reader io.Reader, writer io.Writer) error {
 		results[split[1]] = team2
 	}
 
-	//fmt.Println(results)
-	//sortTable(results)
-	writeBoard(results, writer)
+	ordered := make([]TeamRecord, 0, len(results))
+	for _, v := range results {
+		ordered = append(ordered, v)
+	}
+	sort.Slice(ordered, func(i, j int) bool {
+		if ordered[i].points == ordered[j].points {
+			return ordered[i].name < ordered[j].name
+		}
+		return ordered[i].points > ordered[j].points
+	})
+
+	writeBoard(ordered, writer)
 	return nil
 }
 
-func writeBoard(results map[string]TeamRecord, writer io.Writer) {
+func writeBoard(ordered []TeamRecord, writer io.Writer) {
 	fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", "Team", "MP", "W", "D", "L", "P")
-	for i := range results {
-		fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", results[i].name, results[i].played, results[i].wins, results[i].draws, results[i].losses, results[i].points)
+	for i := range ordered {
+		fmt.Fprintf(writer, "%-31s|%3v |%3v |%3v |%3v |%3v\n", ordered[i].name, ordered[i].played, ordered[i].wins, ordered[i].draws, ordered[i].losses, ordered[i].points)
 	}
 }
 
