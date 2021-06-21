@@ -3,7 +3,11 @@ package twelve
 import "fmt"
 
 func Song() string {
-	return "testing"
+	var song string
+	for i := 1; i < 13; i++ {
+		song += Verse(i) + "\n"
+	}
+	return song
 }
 
 func Verse(verse int) string {
