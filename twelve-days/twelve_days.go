@@ -1,7 +1,9 @@
+//Package twelve helps us into the xmas spirit
 package twelve
 
 import "fmt"
 
+//Song function uses a loop to recite a famous christmas song
 func Song() string {
 	var song string
 	for i := 1; i < 13; i++ {
@@ -13,6 +15,7 @@ func Song() string {
 	return song
 }
 
+//Verse function splits the verses up for easy acces to any verse of our choice via a switch statement
 func Verse(verse int) string {
 	var output string
 	switch verse {
