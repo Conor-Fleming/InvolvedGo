@@ -5,13 +5,16 @@ import "fmt"
 func Song() string {
 	var song string
 	for i := 1; i < 13; i++ {
-		song += Verse(i) + "\n"
+		song += Verse(i)
+		if i != 12 {
+			song += "\n"
+		}
 	}
 	return song
 }
 
 func Verse(verse int) string {
-	output := ""
+	var output string
 	switch verse {
 	case 1:
 		output = fmt.Sprintf("On the first day of Christmas my true love gave to me: a Partridge in a Pear Tree.")
