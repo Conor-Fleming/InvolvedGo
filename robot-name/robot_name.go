@@ -22,6 +22,7 @@ func (r *Robot) Name() (string, error) {
 	if r.name != "" {
 		return r.name, nil
 	}
+	//when all possible names have been used
 	if len(namesUsed) == 26*26*10*10*10 {
 		return "", fmt.Errorf("There are no more possible unique combinations of robot names :(")
 	}
